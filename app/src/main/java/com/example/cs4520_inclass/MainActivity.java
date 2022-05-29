@@ -13,7 +13,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG = "demo";
-    Button buttonPractice, buttonInClass01, buttonInClass02, buttonInClass03;
+    Button buttonPractice, buttonInClass01, buttonInClass02, buttonInClass03,buttonInClass04;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +55,16 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent toInClass03 = new Intent(MainActivity.this, InClass03.class);
                 startActivity(toInClass03);
+            }
+        });
+
+        buttonInClass04 = findViewById(R.id.InClass04);
+        buttonInClass04.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent toInClass04 = new Intent(MainActivity.this, InClass04.class);
+                startActivity(toInClass04);
             }
         });
     }
