@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.cs4520_inclass.R;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,6 +24,8 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         setContentView(R.layout.activity_in_class08);
         setTitle("InClass Assignment08");
 
+
+        FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
     }
 

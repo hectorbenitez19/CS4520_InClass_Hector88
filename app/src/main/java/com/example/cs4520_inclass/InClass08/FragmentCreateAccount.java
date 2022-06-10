@@ -15,13 +15,22 @@ import android.widget.EdgeEffect;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cs4520_inclass.InClass05;
 import com.example.cs4520_inclass.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,33 +47,24 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FirebaseFirestore database;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    // Users Collection key
+    public static final String USERS_COLLECTION_KEY = "users_collection_key";
+
+    //User field variables
+    public static final String FIRSTNAME_KEY = "firstname_key";
+    public static final String LASTNAME_KEY = "lastname_key";
+    public static final String DISPLAY_NAME_KEY = "display_name_key";
+    public static final String EMAIL_KEY = "email_key";
 
     public FragmentCreateAccount() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentCreateAccount.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FragmentCreateAccount newInstance(String param1, String param2) {
+    public static FragmentCreateAccount newInstance() {
         FragmentCreateAccount fragment = new FragmentCreateAccount();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,9 +74,9 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        database = FirebaseFirestore.getInstance();
     }
 
     @Override
@@ -146,6 +146,26 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
 
+                                    HashMap<String, Object> user = new HashMap<>();
+                                    user.put(FIRSTNAME_KEY, firstNameInput);
+                                    user.put(LASTNAME_KEY, lastNameInput);
+                                    user.put(DISPLAY_NAME_KEY, displayNameInput);
+                                    user.put(EMAIL_KEY, emailInput);
+
+                                    database.collection(USERS_COLLECTION_KEY).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d(InClass08.TAG, "User with ID " + documentReference.getId()
+                                                    + " successfully added to database");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            e.printStackTrace();
+                                            Log.w(InClass08.TAG, "Error adding document.", e);
+                                        }
+                                    });
+
                                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest
                                             .Builder()
                                             .setDisplayName(displayNameInput)
@@ -155,10 +175,24 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            mListener.createdAccount(mUser);
+                                            if (task.isSuccessful()) {
+                                                mListener.createdAccount(mUser);
+                                            }
                                         }
                                     });
 
+                                    database.collection(USERS_COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    Log.d(InClass08.TAG, document.getId() + " -> " + document.getData());
+                                                }
+                                            } else {
+                                                Log.w(InClass08.TAG, "Error retrieving the documents.", task.getException());
+                                            }
+                                        }
+                                    });
 
                                 } else {
                                     // If sign in fails, display a message to the user.
