@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/a8_createAccountFrag_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InClass08.FragmentCreateAccount">
+
+    <EditText
+        android:id="@+id/a8_createAccountFrag_firstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <EditText
+        android:id="@+id/a8_createAccountFrag_lastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a8_createAccountFrag_firstName"
+        app:layout_constraintStart_toStartOf="@+id/a8_createAccountFrag_firstName"
+        app:layout_constraintTop_toBottomOf="@+id/a8_createAccountFrag_firstName" />
+
+    <EditText
+        android:id="@+id/a8_createAccountFrag_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a8_createAccountFrag_lastName"
+        app:layout_constraintStart_toStartOf="@+id/a8_createAccountFrag_lastName"
+        app:layout_constraintTop_toBottomOf="@+id/a8_createAccountFrag_lastName" />
+
+    <EditText
+        android:id="@+id/a8_createAccountFrag_displayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Display Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a8_createAccountFrag_email"
+        app:layout_constraintStart_toStartOf="@+id/a8_createAccountFrag_email"
+        app:layout_constraintTop_toBottomOf="@+id/a8_createAccountFrag_email" />
+
+    <EditText
+        android:id="@+id/a8_createAccountFrag_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a8_createAccountFrag_displayName"
+        app:layout_constraintStart_toStartOf="@+id/a8_createAccountFrag_displayName"
+        app:layout_constraintTop_toBottomOf="@+id/a8_createAccountFrag_displayName" />
+
+    <EditText
+        android:id="@+id/a8_createAccountFrag_confirmPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a8_createAccountFrag_password"
+        app:layout_constraintStart_toStartOf="@+id/a8_createAccountFrag_password"
+        app:layout_constraintTop_toBottomOf="@+id/a8_createAccountFrag_password" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Create Account"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/a8_createAccountFrag_createAccountButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Create Account"
+        app:layout_constraintEnd_toEndOf="@+id/a8_createAccountFrag_confirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/a8_createAccountFrag_confirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/a8_createAccountFrag_confirmPassword" />
+</androidx.constraintlayout.widget.ConstraintLayout>

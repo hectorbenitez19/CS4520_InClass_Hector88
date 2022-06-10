@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "293703898031",
+    "project_id": "mobiledevassignment-227bc",
+    "storage_bucket": "mobiledevassignment-227bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293703898031:android:cab8c92c0c807a05c3d55a",
+        "android_client_info": {
+          "package_name": "com.example.cs4520_inclass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293703898031-a4anl5vpbdtcvjhs4st9fv6hgi8hneac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2fkCUPaB4cWcXXocivScn702FxqG52uo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "293703898031-a4anl5vpbdtcvjhs4st9fv6hgi8hneac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
