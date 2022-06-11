@@ -16,10 +16,16 @@ import android.widget.Toast;
 
 import com.example.cs4520_inclass.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,11 +35,13 @@ import com.google.firebase.auth.FirebaseUser;
 public class FragmentLogin extends Fragment implements View.OnClickListener{
 
     private EditText username, password;
-    private Button loginButton, createAccountButton;
+    private Button loginButton, createAccountButton, testButton;
     private ILoginFragmentEvent mListener;
     public static String TAG = "demo";
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore database;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,6 +78,7 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseFirestore.getInstance();
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -85,7 +94,9 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
         password = view.findViewById(R.id.a8_fragLogin_password);
         loginButton = view.findViewById(R.id.a8_fragLogin_loginButton);
         createAccountButton = view.findViewById(R.id.a8_fragLogin_CreateAccountButton);
+        testButton = view.findViewById(R.id.a8_testButton);
 
+        testButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         createAccountButton.setOnClickListener(this);
         return view;
@@ -128,6 +139,24 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
 
         else if(v.getId() == R.id.a8_fragLogin_CreateAccountButton) {
             mListener.displayCreateAccountScreen();
+        }
+
+        else if(v.getId() == R.id.a8_testButton) {
+            String test = "testing adding stuff";
+            Map<String, Object> testEntry = new HashMap<>();
+            testEntry.put("test", test);
+            database.collection("test1").document("test1Document").set(testEntry)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Log.d(TAG, "the data was successfully entered into the database");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
         }
 
     }

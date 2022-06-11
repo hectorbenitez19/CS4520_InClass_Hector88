@@ -1,7 +1,10 @@
+
+
 plugins {
     id 'com.android.application'
-
 }
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
@@ -46,3 +49,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.firebase:firebase-firestore'
 }
+

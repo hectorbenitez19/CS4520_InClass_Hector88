@@ -50,13 +50,13 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
     private FirebaseFirestore database;
 
     // Users Collection key
-    public static final String USERS_COLLECTION_KEY = "users_collection_key";
+    public static final String USERS_COLLECTION_KEY = "User";
 
     //User field variables
-    public static final String FIRSTNAME_KEY = "firstname_key";
-    public static final String LASTNAME_KEY = "lastname_key";
-    public static final String DISPLAY_NAME_KEY = "display_name_key";
-    public static final String EMAIL_KEY = "email_key";
+    public static final String FIRSTNAME_KEY = "First Name";
+    public static final String LASTNAME_KEY = "Last Name";
+    public static final String DISPLAY_NAME_KEY = "Display";
+    public static final String EMAIL_KEY = "Email";
 
     public FragmentCreateAccount() {
         // Required empty public constructor
@@ -73,6 +73,7 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+
         if (getArguments() != null) {
         }
 
@@ -143,6 +144,22 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                 if (task.isSuccessful()) {
                                     mUser = task.getResult().getUser();
 
+                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest
+                                              .Builder()
+                                              .setDisplayName(displayNameInput)
+                                              .build();
+
+                                    mUser.updateProfile(profileChangeRequest)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                      Log.d(TAG, "users display name successfully set");
+                                                    }
+                                                }
+                                            });
+
+
                                     // Sign in success, update UI with the signed-in user's information
                                     Log.d(TAG, "createUserWithEmail:success");
 
@@ -152,35 +169,33 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                     user.put(DISPLAY_NAME_KEY, displayNameInput);
                                     user.put(EMAIL_KEY, emailInput);
 
-                                    database.collection(USERS_COLLECTION_KEY).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Log.d(InClass08.TAG, "User with ID " + documentReference.getId()
-                                                    + " successfully added to database");
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            e.printStackTrace();
-                                            Log.w(InClass08.TAG, "Error adding document.", e);
-                                        }
-                                    });
+                                    database.collection((USERS_COLLECTION_KEY))
+                                            .document(emailInput)
+                                            .set(user)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    mListener.createdAccount(mUser);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            });
 
-                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest
-                                            .Builder()
-                                            .setDisplayName(displayNameInput)
-                                                    .build();
 
-                                    mUser.updateProfile(profileChangeRequest)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                mListener.createdAccount(mUser);
-                                            }
-                                        }
-                                    });
+                                //    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest
+                                  //          .Builder()
+                                    //        .setDisplayName(displayNameInput)
+                                      //              .build();
 
+                                    /*
+
+                */
+
+                                    /*
                                     database.collection(USERS_COLLECTION_KEY).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -193,6 +208,8 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                             }
                                         }
                                     });
+
+                                     */
 
                                 } else {
                                     // If sign in fails, display a message to the user.

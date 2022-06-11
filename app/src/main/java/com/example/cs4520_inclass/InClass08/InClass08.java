@@ -3,13 +3,14 @@ package com.example.cs4520_inclass.InClass08;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.cs4520_inclass.R;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class InClass08 extends AppCompatActivity implements FragmentLogin.ILoginFragmentEvent {
+public class InClass08 extends AppCompatActivity implements FragmentLogin.ILoginFragmentEvent, FragmentCreateAccount.ICreateUserFragEvent, FragmentMainScreen.IFragmentMainFragEvent {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -34,7 +35,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
     protected void onStart() {
         super.onStart();
         //get the current user and populate the screen
-        currentUser = mAuth.getCurrentUser();
+      //  currentUser = mAuth.getCurrentUser();
         display();
     }
 
@@ -42,22 +43,26 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
 
 
     public void display() {
-        if(currentUser != null){
-            //the user logged in so load the FragmentMainScreen
+        //display error is that i havent handled signing out yet so it is signed in until i
+        //manually sign out and will automatically display the main screen with out login prompt
+
+      //  Log.d(TAG, mAuth.getCurrentUser().getDisplayName());
+        currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.a8_fragmentMainScreen_screen, new FragmentMainScreen(), FRAGMAINSCREEN)
+                    .replace(R.id.fragmentContainerView4, new FragmentMainScreen(), FRAGMAINSCREEN)
                     .commit();
-
         }
 
         else {
-            //the user hasn't logged in yet load the FragmentLogin fragment
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.a8_fragmentMainScreen_screen, new FragmentLogin(), FRAGLOGIN)
+                    .replace(R.id.fragmentContainerView4, new FragmentLogin(), FRAGLOGIN)
                     .commit();
         }
+
     }
 
     @Override
@@ -71,7 +76,25 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         //the user needs to create an account so load FragmentCreateAccount fragment
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.a8_fragmentMainScreen_screen, new FragmentCreateAccount(), FRAGCREATEACCOUNT)
+                .replace(R.id.fragmentContainerView4, new FragmentCreateAccount(), FRAGCREATEACCOUNT)
                 .commit();
+
+    }
+
+    @Override
+    public void createdAccount(FirebaseUser user) {
+        currentUser = user;
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView4, new FragmentLogin(), FRAGLOGIN)
+                .commit();
+    }
+
+    @Override
+    public void backToLogin() {
+      //  Log.d(TAG, "Currently logging out this user: " + mAuth.getCurrentUser().getDisplayName());
+        mAuth.signOut();
+      //  Log.d(TAG, "User is logged out should be null: " + mAuth.getCurrentUser().toString());
+        display();
     }
 }
