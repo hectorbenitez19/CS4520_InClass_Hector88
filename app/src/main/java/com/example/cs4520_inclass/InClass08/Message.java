@@ -1,33 +1,58 @@
 package com.example.cs4520_inclass.InClass08;
 
+import java.util.HashMap;
+
 public class Message {
 
-    private String senderEmail;
-    private String messageText;
+ //   private String senderEmail;
+ //   private String messageText;
+    private HashMap<String,String> message;
 
     public Message(String senderEmail, String messageText) {
-        this.senderEmail = senderEmail;
-        this.messageText = messageText;
+ //       this.senderEmail = senderEmail;
+  //      this.messageText = messageText;
+        this.message = new HashMap<>();
+        this.message.put(senderEmail, messageText);
     }
 
-    public String getSenderEmail() {
-        return senderEmail;
+    public Message() {
     }
 
-    public void setSenderEmail(String senderEmail) {
-        this.senderEmail = senderEmail;
+    public void setMessage(HashMap<String, String> message) {
+        this.message = message;
     }
 
-    public String getMessageText() {
-        return messageText;
-    }
-
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
+    public HashMap<String, String> getMessage() {
+        return message;
     }
 
     @Override
     public String toString() {
-        return this.messageText;
+        return "Message{" +
+                "message=" + message +
+                '}';
     }
+
+
+
+//     public String getSenderEmail() {
+ //       return senderEmail;
+ //   }
+
+  //  public void setSenderEmail(String senderEmail) {
+   //     this.senderEmail = senderEmail;
+   // }
+
+   // public String getMessageText() {
+    //    return messageText;
+   // }
+
+   // public void setMessageText(String messageText) {
+   //     this.messageText = messageText;
+   // }
+
+  //  @Override
+  //  public String toString() {
+   //     return this.messageText;
+   // }
 }

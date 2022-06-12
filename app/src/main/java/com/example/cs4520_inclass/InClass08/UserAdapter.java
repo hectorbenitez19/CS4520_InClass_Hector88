@@ -19,7 +19,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     ArrayList<String> users;
     IchatUserClicked mListener;
 
-    public UserAdapter(ArrayList<String> users, IchatUserClicked context) {
+    public UserAdapter(ArrayList<String> users, Context context) {
         this.users = users;
         if(context instanceof IchatUserClicked){
             this.mListener = (IchatUserClicked) context;

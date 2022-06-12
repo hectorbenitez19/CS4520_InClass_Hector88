@@ -87,6 +87,7 @@ public class FragmentMainScreen extends Fragment implements View.OnClickListener
         recyclerView = view.findViewById(R.id.a8_mainRecyclerView);
         recyclerViewLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
+        recyclerView.setOnClickListener(this);
 
         users = new ArrayList<>();
         database.collection(InClass08.USERS_COLLECTION_KEY)
@@ -100,7 +101,7 @@ public class FragmentMainScreen extends Fragment implements View.OnClickListener
                             }
                             users.remove(mUser.getEmail());
 
-                            userAdapter = new UserAdapter(users, FragmentMainScreen.this);
+                            userAdapter = new UserAdapter(users, getContext());
                             recyclerView.setAdapter(userAdapter);
                         } else {
                             Log.d(InClass08.TAG, "Error getting documents: ", task.getException());
@@ -116,6 +117,8 @@ public class FragmentMainScreen extends Fragment implements View.OnClickListener
         if(v.getId() == R.id.a8_fragmentMainScreen_logutButton) {
             mListener.backToLogin();
         }
+
+
 
     }
 
