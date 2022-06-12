@@ -35,7 +35,7 @@ import java.util.Map;
 public class FragmentLogin extends Fragment implements View.OnClickListener{
 
     private EditText username, password;
-    private Button loginButton, createAccountButton, testButton;
+    private Button loginButton, createAccountButton;
     private ILoginFragmentEvent mListener;
     public static String TAG = "demo";
 
@@ -94,9 +94,6 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
         password = view.findViewById(R.id.a8_fragLogin_password);
         loginButton = view.findViewById(R.id.a8_fragLogin_loginButton);
         createAccountButton = view.findViewById(R.id.a8_fragLogin_CreateAccountButton);
-        testButton = view.findViewById(R.id.a8_testButton);
-
-        testButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         createAccountButton.setOnClickListener(this);
         return view;
@@ -139,24 +136,6 @@ public class FragmentLogin extends Fragment implements View.OnClickListener{
 
         else if(v.getId() == R.id.a8_fragLogin_CreateAccountButton) {
             mListener.displayCreateAccountScreen();
-        }
-
-        else if(v.getId() == R.id.a8_testButton) {
-            String test = "testing adding stuff";
-            Map<String, Object> testEntry = new HashMap<>();
-            testEntry.put("test", test);
-            database.collection("test1").document("test1Document").set(testEntry)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Log.d(TAG, "the data was successfully entered into the database");
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            e.printStackTrace();
-                        }
-                    });
         }
 
     }

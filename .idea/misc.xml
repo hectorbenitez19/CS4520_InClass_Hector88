@@ -11,7 +11,6 @@
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_in_class03.xml" value="0.23097826086956522" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_in_class04.xml" value="0.25" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_in_class05.xml" value="0.23097826086956522" />
-        <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_in_class08.xml" value="0.1" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_main.xml" value="0.2296875" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_practice.xml" value="0.2296875" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/activity_select_avatar.xml" value="0.22" />
@@ -23,6 +22,13 @@
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/fragment_main_screen.xml" value="0.23097826086956522" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/fragment_profile_display.xml" value="0.1" />
         <entry key="..\:/CS4520_InClass_Hector88/app/src/main/res/layout/fragment_profile_edit.xml" value="0.1" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/drawable/my_button_bg.xml" value="0.2265" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/layout/activity_in_class08.xml" value="0.1" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/layout/chat_message_row.xml" value="0.1" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/layout/chat_user_row.xml" value="0.4" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/layout/fragment_chat_log.xml" value="0.176" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/layout/fragment_login.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/opbb8/Android_Studio_Projects/CS4520_InClass_Hector88/app/src/main/res/layout/fragment_main_screen.xml" value="0.264" />
       </map>
     </option>
   </component>

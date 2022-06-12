@@ -49,14 +49,7 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
 
     private FirebaseFirestore database;
 
-    // Users Collection key
-    public static final String USERS_COLLECTION_KEY = "User";
 
-    //User field variables
-    public static final String FIRSTNAME_KEY = "First Name";
-    public static final String LASTNAME_KEY = "Last Name";
-    public static final String DISPLAY_NAME_KEY = "Display";
-    public static final String EMAIL_KEY = "Email";
 
     public FragmentCreateAccount() {
         // Required empty public constructor
@@ -164,12 +157,12 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                     Log.d(TAG, "createUserWithEmail:success");
 
                                     HashMap<String, Object> user = new HashMap<>();
-                                    user.put(FIRSTNAME_KEY, firstNameInput);
-                                    user.put(LASTNAME_KEY, lastNameInput);
-                                    user.put(DISPLAY_NAME_KEY, displayNameInput);
-                                    user.put(EMAIL_KEY, emailInput);
+                                    user.put(InClass08.FIRSTNAME_KEY, firstNameInput);
+                                    user.put(InClass08.LASTNAME_KEY, lastNameInput);
+                                    user.put(InClass08.DISPLAY_NAME_KEY, displayNameInput);
+                                    user.put(InClass08.EMAIL_KEY, emailInput);
 
-                                    database.collection((USERS_COLLECTION_KEY))
+                                    database.collection(InClass08.USERS_COLLECTION_KEY)
                                             .document(emailInput)
                                             .set(user)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {

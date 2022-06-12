@@ -17,6 +17,15 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
     public final static String FRAGMAINSCREEN = "Fragment main screen";
     public final static String FRAGLOGIN = "Fragment login screen";
     public final static String FRAGCREATEACCOUNT = "Fragment create account screen";
+
+    // Users Collection key
+    public static final String USERS_COLLECTION_KEY = "User";
+
+    //User field variables
+    public static final String FIRSTNAME_KEY = "First Name";
+    public static final String LASTNAME_KEY = "Last Name";
+    public static final String DISPLAY_NAME_KEY = "Display";
+    public static final String EMAIL_KEY = "Email";
     public static String TAG = "demo";
 
     @Override
