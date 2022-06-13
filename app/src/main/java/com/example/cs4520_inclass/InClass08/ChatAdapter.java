@@ -20,6 +20,10 @@ public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     String mUserEmail;
     ArrayList<Message> messages;
 
+    public void setMessages(ArrayList<Message> messages) {
+        this.messages = messages;
+    }
+
     public ChatAdapter(ArrayList<Message> messages, String mUserEmail) {
         this.messages = messages;
         this.mUserEmail = mUserEmail;

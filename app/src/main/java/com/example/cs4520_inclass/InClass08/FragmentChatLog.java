@@ -3,6 +3,7 @@ package com.example.cs4520_inclass.InClass08;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +28,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -44,6 +48,7 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
     private ChatAdapter messagesAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
     private Button sendButton;
+    private ImageButton backButton;
     private EditText messageInput;
     private TextView friendDisplayName;
     public static String ONE_ON_ONE_CHAT_KEY;
@@ -102,6 +107,8 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
          else {
             ONE_ON_ONE_CHAT_KEY = userEmail + friendEmail;
         }
+
+        backButton = view.findViewById(R.id.a8_chatLogBackButton);
         friendDisplayName = view.findViewById(R.id.a8_chatNameTextView);
         recyclerView = view.findViewById(R.id.a8_chatLogRecyclerView);
         sendButton = view.findViewById(R.id.a8_FragmentChat_sendButton);
@@ -190,7 +197,31 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
                 DocumentReference documentRef = database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY).document(ONE_ON_ONE_CHAT_KEY);
                 documentRef.update(InClass08.MESSAGE_KEY, FieldValue.arrayUnion(newMsg));
                 messageInput.setText("");
+                updateRecyclerView();
             }
         }
+        if(v.getId() == R.id.a8_chatLogBackButton) {
+
+        }
+    }
+
+    public void updateRecyclerView() {
+        database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY)
+                .document(ONE_ON_ONE_CHAT_KEY)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null) {
+                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Chat newChat = value.toObject(Chat.class);
+                            assert newChat != null;
+
+                            messagesAdapter.setMessages(newChat.getMessage());
+                            messagesAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
     }
 }

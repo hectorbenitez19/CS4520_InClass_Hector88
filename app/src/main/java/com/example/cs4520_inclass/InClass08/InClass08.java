@@ -67,6 +67,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainerView4, new FragmentMainScreen(), FRAGMAINSCREEN)
+                    .addToBackStack(null)
                     .commit();
         }
 
@@ -74,6 +75,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainerView4, new FragmentLogin(), FRAGLOGIN)
+                    .addToBackStack(null)
                     .commit();
         }
 
@@ -91,6 +93,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView4, new FragmentCreateAccount(), FRAGCREATEACCOUNT)
+                .addToBackStack(null)
                 .commit();
 
     }
@@ -101,6 +104,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView4, new FragmentLogin(), FRAGLOGIN)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -119,6 +123,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragmentContainerView4, FragmentChatLog.newInstance(email), FRAGMENTCHATLOG)
+                .addToBackStack(null)
                 .commit();
     }
 }
