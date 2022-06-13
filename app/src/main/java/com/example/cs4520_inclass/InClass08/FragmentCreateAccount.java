@@ -32,6 +32,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 
+//Hector Benitez InClass Assignment 8
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentCreateAccount#newInstance} factory method to

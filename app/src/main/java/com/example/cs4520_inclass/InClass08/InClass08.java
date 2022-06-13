@@ -10,6 +10,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+//Hector Benitez InClass Assignment 8
+
 public class InClass08 extends AppCompatActivity implements FragmentLogin.ILoginFragmentEvent, FragmentCreateAccount.ICreateUserFragEvent, FragmentMainScreen.IFragmentMainFragEvent, UserAdapter.IchatUserClicked {
 
     private FirebaseAuth mAuth;

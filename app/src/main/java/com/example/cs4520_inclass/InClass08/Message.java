@@ -2,6 +2,8 @@ package com.example.cs4520_inclass.InClass08;
 
 import java.util.HashMap;
 
+//Hector Benitez InClass Assignment 8
+
 public class Message {
 
  //   private String senderEmail;

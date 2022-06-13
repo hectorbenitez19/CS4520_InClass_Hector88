@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+//Hector Benitez InClass Assignment 8
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentMainScreen#newInstance} factory method to

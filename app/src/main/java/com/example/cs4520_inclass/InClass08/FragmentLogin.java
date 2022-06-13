@@ -27,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+//Hector Benitez InClass Assignment 8
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentLogin#newInstance} factory method to

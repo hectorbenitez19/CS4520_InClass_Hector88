@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+//Hector Benitez InClass Assignment 8
+
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     String mUserEmail;
