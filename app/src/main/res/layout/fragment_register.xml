@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InClass07.FragmentRegister">
+
+    <EditText
+        android:id="@+id/a7_FragmentRegister_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/textView20"
+        app:layout_constraintStart_toStartOf="@+id/textView20"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Registration"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/a7_FragmentRegister_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a7_FragmentRegister_name"
+        app:layout_constraintStart_toStartOf="@+id/a7_FragmentRegister_name"
+        app:layout_constraintTop_toBottomOf="@+id/a7_FragmentRegister_name" />
+
+    <EditText
+        android:id="@+id/a7_FragmentRegister_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/a7_FragmentRegister_email"
+        app:layout_constraintStart_toStartOf="@+id/a7_FragmentRegister_email"
+        app:layout_constraintTop_toBottomOf="@+id/a7_FragmentRegister_email" />
+
+    <Button
+        android:id="@+id/a7_FragmentRegister_registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Register Account"
+        app:layout_constraintEnd_toEndOf="@+id/a7_FragmentRegister_password"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="@+id/a7_FragmentRegister_password"
+        app:layout_constraintTop_toBottomOf="@+id/a7_FragmentRegister_password" />
+</androidx.constraintlayout.widget.ConstraintLayout>

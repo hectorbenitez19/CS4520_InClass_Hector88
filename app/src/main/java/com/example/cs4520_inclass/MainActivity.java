@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.cs4520_inclass.InClass07.InClass07;
 import com.example.cs4520_inclass.InClass08.InClass08;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,7 +79,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        buttonInClass07 = findViewById(R.id.InClass07);
+        buttonInClass07.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent toInClass07 = new Intent(MainActivity.this, InClass07.class);
+                startActivity(toInClass07);
+            }
+        });
 
 
         buttonInClass08 = findViewById(R.id.InClass08);
