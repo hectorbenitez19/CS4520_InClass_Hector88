@@ -33,6 +33,9 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
     public static final String EMAIL_KEY = "Email";
     public static final String MESSAGE_KEY = "Message";
 
+    public static final String SENDER_KEY = "senderEmail";
+    public static final String MESSAGE_TEXT_KEY = "text";
+
     public static String TAG = "demo";
 
     @Override

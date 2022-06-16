@@ -1,3 +1,5 @@
+
+/*
 package com.example.cs4520_inclass.InClass08;
 
 import java.util.HashMap;
@@ -6,19 +8,22 @@ import java.util.HashMap;
 
 public class Message {
 
- //   private String senderEmail;
- //   private String messageText;
     private HashMap<String,String> message;
 
     public Message(String senderEmail, String messageText) {
- //       this.senderEmail = senderEmail;
-  //      this.messageText = messageText;
         this.message = new HashMap<>();
-        this.message.put(senderEmail, messageText);
+        this.message.put(SENDER_KEY, senderEmail);
+        this.message.put(MESSAGE_TEXT_KEY, messageText);
+    }
+
+    public Message(HashMap<String, String> map) {
+        this.message = map;
     }
 
     public Message() {
     }
+
+
 
     public void setMessage(HashMap<String, String> message) {
         this.message = message;
@@ -28,33 +33,19 @@ public class Message {
         return message;
     }
 
+    public String getSender() {
+        return message.get(SENDER_KEY);
+    }
+
+    public String getText() {
+        return message.get(MESSAGE_TEXT_KEY);
+    }
+
     @Override
     public String toString() {
         return "Message{" +
                 "message=" + message +
                 '}';
     }
-
-
-
-//     public String getSenderEmail() {
- //       return senderEmail;
- //   }
-
-  //  public void setSenderEmail(String senderEmail) {
-   //     this.senderEmail = senderEmail;
-   // }
-
-   // public String getMessageText() {
-    //    return messageText;
-   // }
-
-   // public void setMessageText(String messageText) {
-   //     this.messageText = messageText;
-   // }
-
-  //  @Override
-  //  public String toString() {
-   //     return this.messageText;
-   // }
 }
+*/

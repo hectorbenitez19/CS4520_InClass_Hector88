@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -19,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cs4520_inclass.MainActivity;
 import com.example.cs4520_inclass.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,7 +37,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 //Hector Benitez InClass Assignment 8
 
@@ -51,19 +58,21 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
     private ChatAdapter messagesAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
     private Button sendButton;
-    private ImageButton backButton;
     private EditText messageInput;
     private TextView friendDisplayName;
-    public static String ONE_ON_ONE_CHAT_KEY;
+
+    // INVARIANT: After this is set, it doesn't change (cant be final cause we can't set it in the constructor)
+    public String ONE_ON_ONE_CHAT_KEY;
 
     private FirebaseFirestore database;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
     private static final String ARG_PARAM1 = "param1";
+    private String userEmail;
     private String friendEmail;
 
-    private ArrayList<Message> messages;
+    private ArrayList messages;
 
 
     public FragmentChatLog() {
@@ -89,6 +98,17 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
 
         if (getArguments() != null) {
                 friendEmail = getArguments().getString(ARG_PARAM1);
+
+            userEmail = mUser.getEmail();
+            assert userEmail != null;
+            if(userEmail.compareTo(friendEmail) > 0) {
+                ONE_ON_ONE_CHAT_KEY = userEmail + friendEmail;
+            } else if(userEmail.compareTo(friendEmail) < 0) {
+                ONE_ON_ONE_CHAT_KEY = friendEmail + userEmail;
+            } else {
+                Log.d(InClass08.TAG, "userEmail: " + userEmail + ", friendEmail: " + friendEmail);
+                throw new IllegalStateException("User should not be messaging themself.");
+            }
         }
     }
 
@@ -98,31 +118,19 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_chat_log, container, false);
 
-
-        String userEmail = mUser.getEmail();
-        assert userEmail != null;
-        if(userEmail.compareTo(friendEmail) >= 1) {
-            ONE_ON_ONE_CHAT_KEY = userEmail + friendEmail;
-        }
-        if(userEmail.compareTo(friendEmail) <= -1) {
-            ONE_ON_ONE_CHAT_KEY = friendEmail + userEmail;
-        }
-         else {
-            ONE_ON_ONE_CHAT_KEY = userEmail + friendEmail;
-        }
-
-        backButton = view.findViewById(R.id.a8_chatLogBackButton);
         friendDisplayName = view.findViewById(R.id.a8_chatNameTextView);
+        friendDisplayName.setText(friendEmail);
+
         recyclerView = view.findViewById(R.id.a8_chatLogRecyclerView);
         sendButton = view.findViewById(R.id.a8_FragmentChat_sendButton);
         sendButton.setOnClickListener(this);
         messageInput = view.findViewById(R.id.a8_FragmentChat_messageInput);
-        StaggeredGridLayoutManager layout = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        recyclerViewLayoutManager = layout;
-        layout.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        recyclerViewLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
+        messagesAdapter = new ChatAdapter(new ArrayList<>(), userEmail);
+        recyclerView.setAdapter(messagesAdapter);
 
-         messages = new ArrayList<>();
+        messages = new ArrayList();
 
         //Note: I made a ChatAdapter but didn't text it yet. It should mostly work though.
         //TODO: Get the chat log from the database, parse it into messages, and store it in an arraylist
@@ -130,58 +138,59 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
 
         DocumentReference docRef = database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY)
                 .document(ONE_ON_ONE_CHAT_KEY);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY)
-                                .document(ONE_ON_ONE_CHAT_KEY)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                                DocumentSnapshot document = task.getResult();
-                                                Chat messageField = document.toObject(Chat.class);
-                                                assert messageField != null;
-                                                messages = messageField.getMessage();
-                                                messagesAdapter = new ChatAdapter(messages, userEmail);
-                                                recyclerView.setAdapter(messagesAdapter);
-                                                Log.d(InClass08.TAG, messageField.toString());
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
 
-                                        } else {
-                                            Log.d(InClass08.TAG, "Error getting documents: ", task.getException());
-                                        }
-                                    }
-                                });
+                            Object hopefullyMessages = document.get(InClass08.MESSAGE_KEY);
 
+                            if (hopefullyMessages == null) {
+                                Map<String, Object> emptyArray = new HashMap<String, Object>();
+                                emptyArray.put(InClass08.MESSAGE_KEY, new ArrayList<Map<String,String>>());
 
-                    } else {
-                        Log.d(InClass08.TAG, "No such document");
-                        Chat Message = new Chat(new ArrayList<>());
-                        database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY).document(ONE_ON_ONE_CHAT_KEY)
-                                .set(Message)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d(InClass08.TAG, "DocumentSnapshot successfully written!");
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d(InClass08.TAG, "Error writing document", e);
-                                    }
-                                });
+                                database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY)
+                                        .document(ONE_ON_ONE_CHAT_KEY).set(emptyArray);
+                            } else {
+                                //try {
+                                    List<HashMap<String, String>> temp = (List<HashMap<String, String>>) hopefullyMessages;
+                                    messages = new ArrayList(temp);
+                                //} catch (Exception e) {
+                                //    throw new IllegalStateException("Received not a list: " + e);
+                                //}
+
+                                messagesAdapter = new ChatAdapter(messages, userEmail);
+                                recyclerView.setAdapter(messagesAdapter);
+                            }
+                        } else {
+                            Log.d(InClass08.TAG, "Error getting documents: ", task.getException());
+                        }
                     }
-                } else {
-                    Log.d(InClass08.TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+                });
 
+        database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY)
+                .document(ONE_ON_ONE_CHAT_KEY)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        if(error != null) {
+                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Object hopefullyMessages = value.get(InClass08.MESSAGE_KEY);
+                            //try {
+                                List<HashMap<String, String>> temp = (List<HashMap<String, String>>) hopefullyMessages;
+                                messages = new ArrayList(temp);
+                            //} catch (Exception e) {
+                            //    throw new IllegalStateException("Recieved not a list.");
+                            //}
+                            messagesAdapter.setMessages(messages);
+                            messagesAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
 
         return view;
     }
@@ -193,38 +202,14 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "need to input a message before sending", Toast.LENGTH_SHORT).show();
             }
              else {
-                 Chat Message = new Chat(new ArrayList<>());
-                 Message newMsg = new Message(mUser.getEmail(), messageInput.getText().toString());
-                 Message.getMessage().add(newMsg);
+                 HashMap<String,String> newMsg = new HashMap();
+                 newMsg.put(InClass08.SENDER_KEY,mUser.getEmail());
+                 newMsg.put(InClass08.MESSAGE_TEXT_KEY, messageInput.getText().toString());
                  //add this message to the database
-                DocumentReference documentRef = database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY).document(ONE_ON_ONE_CHAT_KEY);
-                documentRef.update(InClass08.MESSAGE_KEY, FieldValue.arrayUnion(newMsg));
-                messageInput.setText("");
-                updateRecyclerView();
+                 DocumentReference documentRef = database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY).document(ONE_ON_ONE_CHAT_KEY);
+                 documentRef.update(InClass08.MESSAGE_KEY, FieldValue.arrayUnion(newMsg));
+                 messageInput.setText("");
             }
         }
-        if(v.getId() == R.id.a8_chatLogBackButton) {
-
-        }
-    }
-
-    public void updateRecyclerView() {
-        database.collection(InClass08.CHAT_LOGS_COLLECTIONS_KEY)
-                .document(ONE_ON_ONE_CHAT_KEY)
-                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(error != null) {
-                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            Chat newChat = value.toObject(Chat.class);
-                            assert newChat != null;
-
-                            messagesAdapter.setMessages(newChat.getMessage());
-                            messagesAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
     }
 }

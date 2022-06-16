@@ -1,3 +1,5 @@
+
+/*
 package com.example.cs4520_inclass.InClass08;
 
 import java.util.ArrayList;
@@ -6,30 +8,29 @@ import java.util.ArrayList;
 
 public class Chat {
 
-    private ArrayList<Message> Message;
+    private ArrayList<Message> messages;
 
     public Chat(ArrayList<Message> chat) {
-        this.Message = chat;
+        this.messages = chat;
     }
 
     public Chat() {
     }
 
-    public ArrayList<Message> getMessage() {
-        return Message;
+    public ArrayList<Message> getMessages() {
+        return messages;
     }
 
-    public void setMessage(ArrayList<Message> message) {
-        this.Message = message;
+    public void setMessages(ArrayList<Message> messages) {
+        this.messages = messages;
     }
 
     @Override
     public String toString() {
         return "Chat{" +
-                "chat=" + Message +
+                "messages=" + messages +
                 '}';
     }
-
-
-
 }
+
+*/

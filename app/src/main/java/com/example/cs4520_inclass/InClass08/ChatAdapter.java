@@ -20,47 +20,61 @@ import java.util.Set;
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     String mUserEmail;
-    ArrayList<Message> messages;
+    ArrayList<HashMap> messages;
+    public static final int RIGHT_MESSAGE = 1;
+    public static final int LEFT_MESSAGE = -1;
 
-    public void setMessages(ArrayList<Message> messages) {
+    public void setMessages(ArrayList<HashMap> messages) {
         this.messages = messages;
     }
 
-    public ChatAdapter(ArrayList<Message> messages, String mUserEmail) {
+    public ChatAdapter(ArrayList<HashMap> messages, String mUserEmail) {
         this.messages = messages;
         this.mUserEmail = mUserEmail;
+    }
+
+    // Returns RIGHT_MESSAGE if this user sent the message, or LEFT_MESSAGE if they didn't.
+    // Used to lean the messages left or right.
+    @Override
+    public int getItemViewType (int position) {
+        assert messages != null;
+        assert mUserEmail != null;
+
+        if (messages.get(position).get(InClass08.SENDER_KEY).equals(mUserEmail)) {
+            return RIGHT_MESSAGE;
+        } else {
+            return LEFT_MESSAGE;
+        }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        int layoutID;
+        if (viewType == RIGHT_MESSAGE) {
+            layoutID = R.layout.chat_message_row_right;
+        } else if (viewType == LEFT_MESSAGE) {
+            layoutID = R.layout.chat_message_row_left;
+        } else {
+            throw new IllegalArgumentException("Invalid viewType given: " + viewType + ". viewType "
+            + "should be either RIGHT_MESSAGE or LEFT_MESSAGE.");
+        }
+
         View itemRecyclerView = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.chat_message_row, parent, false);
+                .inflate(layoutID, parent, false);
 
         return new ChatAdapter.ViewHolder(itemRecyclerView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Message curMessage = messages.get(position);
+        HashMap<String, String> curMessage = messages.get(position);
 
         TextView messageText = holder.getMessageText();
         //messageText.setText(curMessage.toString());
 
-        // Hopefully this will move your messages to the right and their messages to the left.
-        // Its currently inellegant and hacky, but oh well.
-        if (curMessage.getMessage().containsKey(mUserEmail)) {
-            Log.d(InClass08.TAG, "display the users message now");
-            messageText.setText(curMessage.getMessage().get(mUserEmail));
-              messageText.setPadding(75, 8, 8, 8);
-        } else {
-            Log.d(InClass08.TAG, "display the friends message now");
-            Set<String> set = curMessage.getMessage().keySet();
-            ArrayList<String> keyList = new ArrayList<>(set);
-            messageText.setText(curMessage.getMessage().get(keyList.get(0)));
-            messageText.setPadding(8, 8, 75, 8);
-        }
+        messageText.setText(curMessage.get(InClass08.MESSAGE_TEXT_KEY));
     }
 
     @Override
