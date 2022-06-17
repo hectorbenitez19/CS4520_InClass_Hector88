@@ -4,6 +4,12 @@
     package="com.example.cs4520_inclass">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +26,7 @@
             android:name=".InClass07.InClass07"
             android:exported="false" />
         <activity
-            android:name=".InClass08.InClass08"
+            android:name=".InClass08_and_InClass09.InClass08"
             android:exported="false" />
         <activity
             android:name=".InClass05"

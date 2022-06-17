@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.cs4520_inclass.InClass07.InClass07;
-import com.example.cs4520_inclass.InClass08.InClass08;
+import com.example.cs4520_inclass.InClass08_and_InClass09.InClass08;
 
 public class MainActivity extends AppCompatActivity {
     final String TAG = "demo";
     Button buttonPractice, buttonInClass01, buttonInClass02, buttonInClass03,buttonInClass04,
-            buttonInClass05, buttonInClass07,buttonInClass08 ;
+            buttonInClass05, buttonInClass07,buttonInClass08, buttonInClass09 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +97,16 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent toInClass08 = new Intent(MainActivity.this, InClass08.class);
                 startActivity(toInClass08);
+            }
+        });
+
+        buttonInClass09 = findViewById(R.id.InClass09);
+        buttonInClass09.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent toInClass09 = new Intent(MainActivity.this, InClass08.class);
+                startActivity(toInClass09);
             }
         });
     }

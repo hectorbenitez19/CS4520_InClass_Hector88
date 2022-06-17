@@ -27,13 +27,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/a9_chatMessageImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="275dp" />
+
             <TextView
                 android:id="@+id/a8_chatMessageTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:maxWidth="275dp"
-                android:text="TextView TextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextViewTextView"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </FrameLayout>

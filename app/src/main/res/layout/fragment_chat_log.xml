@@ -5,7 +5,7 @@
     android:id="@+id/a8_fragmentChatLog_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InClass08.FragmentChatLog">
+    tools:context=".InClass08_and_InClass09.FragmentChatLog">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/a8_chatLogRecyclerView"
@@ -15,8 +15,10 @@
         android:layout_marginBottom="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/a8_chatNameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/a8_chatNameTextView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/a8_chatNameTextView"
@@ -33,26 +35,45 @@
 
     <EditText
         android:id="@+id/a8_FragmentChat_messageInput"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Message"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/a8_FragmentChat_sendButton"
+        app:layout_constraintStart_toEndOf="@+id/a9_FragmentChat_galleryButton"
         app:layout_constraintTop_toBottomOf="@+id/a8_chatLogRecyclerView"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/a9_FragmentChat_picButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/a8_chatLogRecyclerView" />
+
+    <ImageButton
+        android:id="@+id/a9_FragmentChat_galleryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintStart_toEndOf="@+id/a9_FragmentChat_picButton"
+        app:layout_constraintTop_toBottomOf="@+id/a8_chatLogRecyclerView" />
+
+    <ImageButton
         android:id="@+id/a8_FragmentChat_sendButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:src="@android:drawable/ic_menu_send"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/a8_FragmentChat_messageInput"
         app:layout_constraintTop_toBottomOf="@+id/a8_chatLogRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
