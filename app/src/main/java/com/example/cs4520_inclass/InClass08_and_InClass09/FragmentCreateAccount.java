@@ -1,6 +1,8 @@
 package com.example.cs4520_inclass.InClass08_and_InClass09;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Base64;
 import java.util.HashMap;
 
 //Hector Benitez InClass Assignment 8
@@ -82,6 +85,7 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_create_account, container, false);
         profileImage = view.findViewById(R.id.a9_fragmentCreateAccount_profileImage);
         profileImage.setOnClickListener(this);
+        profileImage.setImageResource(R.drawable.avatar_f_1);
         firstname = view.findViewById(R.id.a8_createAccountFrag_firstName);
         lastname = view.findViewById(R.id.a8_createAccountFrag_lastName);
         display = view.findViewById(R.id.a8_createAccountFrag_displayName);
@@ -90,6 +94,15 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
         confirmPassword = view.findViewById(R.id.a8_createAccountFrag_confirmPassword);
         createAccount = view.findViewById(R.id.a8_createAccountFrag_createAccountButton);
         createAccount.setOnClickListener(this);
+
+        try {
+            Log.d(InClass08.TAG, "this is the image string " + image);
+            byte[] b = Base64.getDecoder().decode(image);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+            profileImage.setImageBitmap(bitmap);
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
 
         return view;
     }
@@ -104,7 +117,7 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
         String confirmPasswordInput = confirmPassword.getText().toString();
 
         if(v.getId() == R.id.a9_fragmentCreateAccount_profileImage) {
-
+                mListener.takePicAndLogIn();
         }
 
 

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InClass08.InClass08">
+    tools:context=".InClass08_and_InClass09.InClass08">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
-        android:name="com.example.cs4520_inclass.InClass08.FragmentLogin"
+        android:name="com.example.cs4520_inclass.InClass08_and_InClass09.FragmentLogin"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -5,7 +5,7 @@
     android:id="@+id/a8_fragmentLogin_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InClass08.FragmentLogin">
+    tools:context=".InClass08_and_InClass09.FragmentLogin">
 
     <EditText
         android:id="@+id/a8_fragLogin_username"

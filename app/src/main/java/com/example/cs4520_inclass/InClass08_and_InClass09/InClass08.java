@@ -1,11 +1,14 @@
 package com.example.cs4520_inclass.InClass08_and_InClass09;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -16,6 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //Hector Benitez InClass Assignment 8
 
@@ -54,12 +62,16 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
 
     public static String TAG = "demo";
 
+    private boolean isCamera;
+
+    private Uri imagePath;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_class08);
         setTitle("InClass Assignment08");
-
+        isCamera = false;
 
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
@@ -81,10 +93,12 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         //display error is that i haven't handled signing out yet so it is signed in until i
         //manually sign out and will automatically display the main screen with out login prompt
 
-      //  Log.d(TAG, mAuth.getCurrentUser().getDisplayName());
         currentUser = mAuth.getCurrentUser();
 
-        if(currentUser != null) {
+        if(isCamera) {
+            isCamera = false;
+
+        } else if(currentUser != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainerView4, new FragmentMainScreen(), FRAGMAINSCREEN)
@@ -156,6 +170,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
     public void takePicture(String fragmentTag) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
+            isCamera = true;
             FRAGMENT_WE_CAME_FROM = fragmentTag;
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         } catch (ActivityNotFoundException e) {
@@ -169,6 +184,8 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Log.d(InClass08.TAG, "Just took the picture");
+
+
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -178,15 +195,8 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
             Log.d(InClass08.TAG, "This is the image string we encode " + image);
             Bundle bundle = new Bundle();
             bundle.putString("test", image);
-
             returnToFragment(FRAGMENT_WE_CAME_FROM, image);
-            //getSupportFragmentManager()
-            //        .beginTransaction()
-            //        .replace(R.id.fragmentContainerView4, FragmentMainScreen.newInstance(image), FRAGMAINSCREEN)
-            //        .addToBackStack(null)
-            //        .commit();
-//
-            //  imageView.setImageBitmap(imageBitmap);
+            
         }
     }
 
@@ -201,6 +211,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
                         .commit();
                 break;
             case FRAGMAINSCREEN:
+                Log.d(InClass08.TAG, "going back to main screen now");
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentContainerView4, FragmentMainScreen.newInstance(image), FRAGMAINSCREEN)
@@ -208,6 +219,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
                         .commit();
                 break;
             case FRAGMENTEDITPROFILE:
+                Log.d(InClass08.TAG, "going back to edit profile now");
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentContainerView4, FragmentEditProfile.newInstance(image), FRAGMENTEDITPROFILE)
@@ -239,5 +251,7 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         FRAGMENT_WE_CAME_FROM = FRAGCREATEACCOUNT;
         takePicture(FRAGMENT_WE_CAME_FROM);
     }
+
+
 
 }
