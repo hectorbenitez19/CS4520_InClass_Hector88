@@ -148,7 +148,8 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
             }
 
             if(!firstNameInput.equals("") && !lastNameInput.equals("") && !displayNameInput.equals("") &&
-                    !emailInput.equals("") && !passwordInput.equals("") && passwordInput.equals(confirmPasswordInput)) {
+                    !emailInput.equals("") && !passwordInput.equals("") && passwordInput.equals(confirmPasswordInput) &&
+                    !image.equals("")) {
 
                 //creates the account
                 mAuth.createUserWithEmailAndPassword(emailInput, passwordInput)
@@ -182,6 +183,7 @@ public class FragmentCreateAccount extends Fragment implements View.OnClickListe
                                     user.put(InClass08.LASTNAME_KEY, lastNameInput);
                                     user.put(InClass08.DISPLAY_NAME_KEY, displayNameInput);
                                     user.put(InClass08.EMAIL_KEY, emailInput);
+                                    user.put(InClass08.IMAGE_KEY, image);
 
                                     database.collection(InClass08.USERS_COLLECTION_KEY)
                                             .document(emailInput)
@@ -228,5 +230,4 @@ public interface ICreateUserFragEvent {
         void createdAccount(FirebaseUser user);
         void takePicAndLogIn();
 }
-
 }

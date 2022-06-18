@@ -225,4 +225,8 @@ public class FragmentChatLog extends Fragment implements View.OnClickListener {
                 });
 
     }
+
+    public void sendImageMessage() {
+
+    }
 }
