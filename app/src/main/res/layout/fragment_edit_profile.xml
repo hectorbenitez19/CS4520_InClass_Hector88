@@ -54,13 +54,13 @@
         app:layout_constraintTop_toBottomOf="@+id/a8_editAccountFrag_firstName" />
 
     <Button
-        android:id="@+id/a8_createAccountFrag_editAccountButton"
+        android:id="@+id/a8_editAccountFrag_editAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:text="Create Account"
+        android:text="Edit Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

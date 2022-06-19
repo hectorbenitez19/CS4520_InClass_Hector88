@@ -2,6 +2,7 @@ package com.example.cs4520_inclass.InClass08_and_InClass09;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -25,9 +26,9 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//Hector Benitez InClass Assignment 8
+//Hector Benitez & Oliver Baer-Benson InClass Assignment 9
 
-public class InClass08 extends AppCompatActivity implements FragmentLogin.ILoginFragmentEvent, FragmentCreateAccount.ICreateUserFragEvent, FragmentMainScreen.IFragmentMainFragEvent, UserAdapter.IchatUserClicked {
+public class InClass08 extends AppCompatActivity implements FragmentLogin.ILoginFragmentEvent, FragmentCreateAccount.ICreateUserFragEvent, FragmentMainScreen.IFragmentMainFragEvent, UserAdapter.IchatUserClicked, FragmentEditProfile.IEditUserFragEvent {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -153,7 +154,11 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
 
     @Override
     public void goToEditProfile() {
-
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView4, FragmentEditProfile.newInstance(currentUser.getEmail()), FRAGMENTEDITPROFILE)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -220,11 +225,15 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
                 break;
             case FRAGMENTEDITPROFILE:
                 Log.d(InClass08.TAG, "going back to edit profile now");
+                FragmentEditProfile frag = (FragmentEditProfile) getSupportFragmentManager().findFragmentByTag(FRAGMENTEDITPROFILE);
+                frag.editUser(image, "", "", "", currentUser.getEmail());
+                /*
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragmentContainerView4, FragmentEditProfile.newInstance(image), FRAGMENTEDITPROFILE)
                         .addToBackStack(null)
                         .commit();
+                        */
                 break;
             default:
                 throw new IllegalArgumentException("Must be given the tag fro a supported fragment.");
@@ -252,6 +261,14 @@ public class InClass08 extends AppCompatActivity implements FragmentLogin.ILogin
         takePicture(FRAGMENT_WE_CAME_FROM);
     }
 
+    @Override
+    public void takePicAndEdit() {
+        FRAGMENT_WE_CAME_FROM = FRAGMENTEDITPROFILE;
+        takePicture(FRAGMENT_WE_CAME_FROM);
+    }
 
-
+    @Override
+    public void editProfileDone() {
+        getSupportFragmentManager().popBackStack();
+    }
 }

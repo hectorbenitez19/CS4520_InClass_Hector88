@@ -14,7 +14,7 @@ import com.example.cs4520_inclass.R;
 
 import java.util.ArrayList;
 
-//Hector Benitez InClass Assignment 8
+//Hector Benitez & Oliver Baer-Benson InClass Assignment 9
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 

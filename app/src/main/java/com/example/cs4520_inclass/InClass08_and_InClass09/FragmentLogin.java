@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-//Hector Benitez InClass Assignment 8
+//Hector Benitez & Oliver Baer-Benson InClass Assignment 9
 
 /**
  * A simple {@link Fragment} subclass.

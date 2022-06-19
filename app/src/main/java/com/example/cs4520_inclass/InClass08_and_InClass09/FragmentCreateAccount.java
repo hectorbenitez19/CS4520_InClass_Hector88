@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Base64;
 import java.util.HashMap;
 
-//Hector Benitez InClass Assignment 8
+//Hector Benitez & Oliver Baer-Benson InClass Assignment 9
 
 /**
  * A simple {@link Fragment} subclass.

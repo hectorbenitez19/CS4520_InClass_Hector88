@@ -13,7 +13,7 @@ import com.example.cs4520_inclass.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//Hector Benitez InClass Assignment 8
+//Hector Benitez & Oliver Baer-Benson InClass Assignment 9
 
 public class ChatAdapter  extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 

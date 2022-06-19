@@ -30,7 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Base64;
 
-//Hector Benitez InClass Assignment 8
+//Hector Benitez & Oliver Baer-Benson InClass Assignment 9
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,7 +40,7 @@ import java.util.Base64;
 public class FragmentMainScreen extends Fragment implements View.OnClickListener,
         UserAdapter.IchatUserClicked {
         TextView welcomeText;
-        Button logoutButton,test;
+        Button logoutButton,editButton;
     ImageView testView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -90,10 +90,9 @@ public class FragmentMainScreen extends Fragment implements View.OnClickListener
         logoutButton.setOnClickListener(this);
         welcomeText.append("Welcome: " + mUser.getDisplayName());
 
-        test = view.findViewById(R.id.a9_test);
-        test.setOnClickListener(this);
+        editButton = view.findViewById(R.id.a8_fragmentMainScreen_editButton);
+        editButton.setOnClickListener(this);
 
-        testView = view.findViewById(R.id.a9_testImageview);
         try {
             Log.d(InClass08.TAG, "this is the image string " + testImageString);
             byte[] b = Base64.getDecoder().decode(testImageString);
@@ -139,9 +138,8 @@ public class FragmentMainScreen extends Fragment implements View.OnClickListener
         }
 
 
-        if(v.getId() == R.id.a9_test) {
-            mListener.testCamera();
-
+        if(v.getId() == R.id.a8_fragmentMainScreen_editButton) {
+            mListener.goToEditProfile();
         }
 
     }
