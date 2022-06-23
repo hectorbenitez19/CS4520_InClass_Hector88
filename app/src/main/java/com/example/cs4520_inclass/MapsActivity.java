@@ -62,6 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest locationRequest;
     private final ArrayList<Location> locations = new ArrayList<>();
     List<ActivityTransition> transitions = new ArrayList<>();
+    private final PolylineOptions lineOption = new PolylineOptions();
+    ArrayList<LatLng> positions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -124,22 +127,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         addTransitions();
 
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        final Polyline[] polyline1 = new Polyline[1];
 
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 for (Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())));
 
+                    Log.d("demo", "onLocationResult: "+location.toString());
+                    locations.add(location);
+                    LatLng pos = new LatLng(location.getLatitude(), location.getLongitude());
+                    positions.add(pos);
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())));
                 }
+
+                lineOption.addAll(positions);
+                mMap.addPolyline(lineOption);
             }
         };
+        
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
     }
 
@@ -168,9 +175,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public void onSuccess(Location location) {
                         if(location != null) {
                             locations.add(location);
+                            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())));
                             Polyline polyline1 = mMap.addPolyline(new PolylineOptions()
                                     .clickable(true)
                                     .add(new LatLng(location.getLatitude(), location.getLongitude())));
+                         //   mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
 
                         }
                     }
@@ -267,31 +276,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .setActivityTransition(ActivityTransition.ACTIVITY_TRANSITION_EXIT)
                         .build());
 
-        ActivityTransitionRequest request = new ActivityTransitionRequest(transitions);
-/*
-        Task<Void> task = ActivityRecognition.getClient(this)
-                .requestActivityTransitionUpdates(request, myPendingIntent);
-
-        task.addOnSuccessListener(
-                new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void result) {
-                        // Handle success
-                    }
-                }
-        );
-
-        task.addOnFailureListener(
-                new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        // Handle error
-                        e.printStackTrace();
-                    }
-                }
-        );
-
- */
     }
 
 
