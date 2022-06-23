@@ -13,7 +13,7 @@ import com.example.cs4520_inclass.InClass08_and_InClass09.InClass08;
 public class MainActivity extends AppCompatActivity {
     final String TAG = "demo";
     Button buttonPractice, buttonInClass01, buttonInClass02, buttonInClass03,buttonInClass04,
-            buttonInClass05, buttonInClass07,buttonInClass08, buttonInClass09 ;
+            buttonInClass05, buttonInClass07,buttonInClass08, buttonInClass09, buttonInClass10 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +107,16 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent toInClass09 = new Intent(MainActivity.this, InClass08.class);
                 startActivity(toInClass09);
+            }
+        });
+
+        buttonInClass10 = findViewById(R.id.InClass10);
+        buttonInClass10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent toInClass10 = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(toInClass10);
             }
         });
     }
